@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Submission 4</string>
+    <string name="title_movie">映画</string>
+    <string name="title_tv">テレビ番組</string>
+    <string name="title_favorite">好きな</string>
+    <string name="language">言語設定</string>
+    <string name="detail">細部</string>
+</resources>

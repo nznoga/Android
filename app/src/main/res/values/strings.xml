@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Submission 4</string>
+    <string name="title_movie">Movie</string>
+    <string name="title_tv">Tv Show</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="language">Change Language Settings</string>
+    <string name="tv_descripion" translatable="false">In Depression-era London, a now-grown Jane and Michael Banks, along with Michaels three children, are visited by the enigmatic Mary Poppins following a personal loss. Through her unique magical skills, and with the aid of her friend Jack,she helps the family rediscover the joy and wonder missing in their lives.</string>
+    <string name="detail">Detail</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="add_widget" translatable="false">Add widget</string>
+    <string name="appwidget_text" translatable="false">Movie Banner</string>
+    <string name="empty_text" translatable="false">NO DATA</string>
+</resources>
