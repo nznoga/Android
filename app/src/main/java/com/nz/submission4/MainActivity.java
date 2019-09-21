@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -69,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_change_settings) {
             Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
             startActivity(mIntent);
+        }else {
+            Intent intent = new Intent(MainActivity.this, SetReminder.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

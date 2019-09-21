@@ -6,4 +6,13 @@
     <string name="title_favorite">Kesukaan</string>
     <string name="language">Pengaturan Bahasa</string>
     <string name="detail">Rincian</string>
+    <string name="cancel_daily_reminder">Pengingat Harian Dinonaktifkan</string>
+    <string name="cancel_release_reminder">Rilis Pengingat Dinonaktifkan</string>
+    <string name="daily_reminder">Setel Pengingat Harian</string>
+    <string name="message_daily_reminder">Hai, Submission 5 ada kejutan hari ini!</string>
+    <string name="message_release_reminder">Hai, Submission 5 punya film baru hari ini!</string>
+    <string name="release_today">Rilis Hari Ini</string>
+    <string name="set_daily_reminder">Pengingat Harian Diaktifkan</string>
+    <string name="set_release_reminder">Pengingat Rilis Diaktifkan</string>
+    <string name="set_remider">Setel Pengingat</string>
 </resources>

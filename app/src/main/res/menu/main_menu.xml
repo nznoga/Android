@@ -5,6 +5,10 @@
         android:id="@+id/action_change_settings"
         android:title="@string/language"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/set_remider"
+        android:title="@string/set_remider"
+        app:showAsAction="never"/>
     <item android:id="@+id/search"
         android:title="Search"
         android:icon="@drawable/ic_search_black_24px"

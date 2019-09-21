@@ -6,4 +6,13 @@
     <string name="title_favorite">Favorite</string>
     <string name="language">Change Language Settings</string>
     <string name="detail">Detail</string>
+    <string name="cancel_daily_reminder">Daily Reminder is Disabled</string>
+    <string name="cancel_release_reminder">Release Reminder is Disabled</string>
+    <string name="daily_reminder">Set Daily Reminder</string>
+    <string name="release_today">Release Today</string>
+    <string name="set_daily_reminder">Daily Reminders are Activated</string>
+    <string name="set_release_reminder">Release Reminders are Activated</string>
+    <string name="set_remider">Set Reminders</string>
+    <string name="message_daily_reminder">Hi, Submission 5 there is a surprise today!</string>
+    <string name="message_release_reminder">Hi, Submission 5 have a new movie today!</string>
 </resources>
