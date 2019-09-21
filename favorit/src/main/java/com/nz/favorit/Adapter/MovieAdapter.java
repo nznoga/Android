@@ -1,4 +1,4 @@
-package com.nz.favorit;
+package com.nz.favorit.Adapter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.nz.favorit.R;
 
 import static com.nz.favorit.DatabaseContract.MovieColumns.IMAGE;
 import static com.nz.favorit.DatabaseContract.MovieColumns.TITLE;

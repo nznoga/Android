@@ -1,0 +1,48 @@
+package com.nz.favorit.Adapter;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.nz.favorit.R;
+
+import static com.nz.favorit.DatabaseContract.MovieColumns.IMAGE;
+import static com.nz.favorit.DatabaseContract.MovieColumns.TITLE;
+import static com.nz.favorit.DatabaseContract.getColumnString;
+
+
+public class TvAdapter extends CursorAdapter {
+    public TvAdapter(Context context, Cursor c, boolean autoRequery) {
+        super(context, c, autoRequery);
+    }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_tv, viewGroup, false);
+        return view;
+    }
+
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+        if (cursor != null){
+            TextView movieName = view.findViewById(R.id.tv_name);
+            ImageView gambar = view.findViewById(R.id.img_tv);
+            movieName.setText(getColumnString(cursor,TITLE));
+            Glide.with(context)
+                    .load(getColumnString(cursor,IMAGE))
+                    .apply(new RequestOptions().override(350,550))
+                    .into(gambar);
+        }
+    }
+    @Override
+    public Cursor getCursor() {
+        return super.getCursor();
+    }
+}
