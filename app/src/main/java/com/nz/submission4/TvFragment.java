@@ -2,15 +2,23 @@ package com.nz.submission4;
 
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,6 +47,7 @@ public class TvFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
+        setHasOptionsMenu(true);
         recyclerView = view.findViewById(R.id.rv_movie);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -65,4 +74,57 @@ public class TvFragment extends Fragment {
             pd.dismiss();
         }
     };
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.main_menu, menu);
+        searchMovie(menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_change_settings) {
+            Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            startActivity(mIntent);
+        }else if(item.getItemId() == R.id.set_remider) {
+            Intent intent = new Intent(getContext(), SetReminder.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void searchMovie(Menu menu) {
+        SearchManager searchManager;
+        if (getContext() != null) {
+            searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+            if (searchManager != null) {
+                androidx.appcompat.widget.SearchView searchView =
+                        (androidx.appcompat.widget.SearchView) (menu.findItem(R.id.searchku)).getActionView();
+                if (getActivity() != null) {
+                    searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+                }
+
+                searchView.setIconifiedByDefault(true);
+                searchView.setFocusable(true);
+                searchView.setIconified(false);
+                searchView.requestFocusFromTouch();
+                searchView.setQueryHint("Cari Tv");
+
+
+                androidx.appcompat.widget.SearchView.OnQueryTextListener queryTextListener = new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                };
+
+                searchView.setOnQueryTextListener(queryTextListener);
+            }
+        }
+    }
 }

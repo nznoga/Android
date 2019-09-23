@@ -9,7 +9,7 @@
         android:id="@+id/set_remider"
         android:title="@string/set_remider"
         app:showAsAction="never"/>
-    <item android:id="@+id/search"
+    <item android:id="@+id/searchku"
         android:title="Search"
         android:icon="@drawable/ic_search_black_24px"
         app:showAsAction="collapseActionView|ifRoom"

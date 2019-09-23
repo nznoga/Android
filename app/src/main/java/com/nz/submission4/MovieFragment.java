@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.nz.submission4.adapter.MoviesAdapter;
@@ -30,6 +34,7 @@ import com.nz.submission4.item.Movie;
 import com.nz.submission4.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -52,6 +57,7 @@ public class MovieFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
+        setHasOptionsMenu(true);
         recyclerView = view.findViewById(R.id.rv_movie);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),4));
@@ -87,35 +93,56 @@ public class MovieFragment extends Fragment {
         }
     };
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.main_menu, menu);
+        searchMovie(menu);
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.search, menu);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_change_settings) {
+            Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            startActivity(mIntent);
+        }else if(item.getItemId() == R.id.set_remider) {
+            Intent intent = new Intent(getContext(), SetReminder.class);
+            startActivity(intent);
         }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-
-            queryTextListener = new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    Log.i("onQueryTextChange", newText);
-
-                    return true;
+        return super.onOptionsItemSelected(item);
+    }
+    private void searchMovie(Menu menu) {
+        SearchManager searchManager;
+        if (getContext() != null) {
+            searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+            if (searchManager != null) {
+                androidx.appcompat.widget.SearchView searchView =
+                        (androidx.appcompat.widget.SearchView) (menu.findItem(R.id.searchku)).getActionView();
+                if (getActivity() != null) {
+                    searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
                 }
 
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    Log.i("onQueryTextSubmit", query);
+                searchView.setIconifiedByDefault(true);
+                searchView.setFocusable(true);
+                searchView.setIconified(false);
+                searchView.requestFocusFromTouch();
+                searchView.setQueryHint("Cari Film");
 
-                    return true;
-                }
-            };
-            //searchView.setOnQueryTextListener(queryTextListener);
+
+                androidx.appcompat.widget.SearchView.OnQueryTextListener queryTextListener = new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                };
+
+                searchView.setOnQueryTextListener(queryTextListener);
+            }
         }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 }
