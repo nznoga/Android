@@ -21,12 +21,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.nz.submission4.adapter.TvAdapter;
 import com.nz.submission4.item.TvShow;
 import com.nz.submission4.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -36,6 +38,7 @@ public class TvFragment extends Fragment {
     private RecyclerView recyclerView;
     private TvAdapter adapter;
     ProgressDialog pd;
+    MainViewModel model;
 
 
     public TvFragment() {
@@ -62,7 +65,7 @@ public class TvFragment extends Fragment {
         pd.show();
         adapter = new TvAdapter(getActivity());
         adapter.notifyDataSetChanged();
-        MainViewModel model = ViewModelProviders.of(this).get(MainViewModel.class);
+        model = ViewModelProviders.of(this).get(MainViewModel.class);
         model.getTv().observe(this, getTvs);
         model.setListTv("tv");
     }
@@ -74,11 +77,31 @@ public class TvFragment extends Fragment {
             pd.dismiss();
         }
     };
+    private final Observer<ArrayList<TvShow>> getSearchTelevision = new Observer<ArrayList<TvShow>>() {
+        @Override
+        public void onChanged(ArrayList<TvShow> tvShows) {
+            adapter.setData(tvShows);
+            pd.dismiss();
+        }
+    };
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
         searchMovie(menu);
         super.onCreateOptionsMenu(menu, inflater);
+        MenuItem menuItem = menu.findItem(R.id.searchku);
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                model.setListTv("tv");
+                return true;
+            }
+        });
 
     }
 
@@ -114,6 +137,8 @@ public class TvFragment extends Fragment {
                 androidx.appcompat.widget.SearchView.OnQueryTextListener queryTextListener = new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
+                        model.getSearchTv().observe(Objects.requireNonNull(getActivity()),getSearchTelevision);
+                        model.setSearchTelevision(query);
                         return true;
                     }
 

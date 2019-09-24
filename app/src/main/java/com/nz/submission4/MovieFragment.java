@@ -46,6 +46,7 @@ public class MovieFragment extends Fragment {
     ProgressDialog pd;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
+    private MainViewModel model;
 
     public MovieFragment() {
         // Required empty public constructor
@@ -78,7 +79,7 @@ public class MovieFragment extends Fragment {
         adapter = new MoviesAdapter(getActivity());
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
-        MainViewModel model = ViewModelProviders.of(this).get(MainViewModel.class);
+        model = ViewModelProviders.of(this).get(MainViewModel.class);
         model.getMovie().observe(this, getMovie);
         model.setListMovies("movie");
     }
@@ -92,11 +93,33 @@ public class MovieFragment extends Fragment {
             }
         }
     };
+    private final Observer<ArrayList<Movie>> getSearchMovie = new Observer<ArrayList<Movie>>() {
+        @Override
+        public void onChanged(ArrayList<Movie> movie) {
+            if (movie != null) {
+                adapter.setData(movie);
+                pd.dismiss();
+            }
+        }
+    };
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
         searchMovie(menu);
         super.onCreateOptionsMenu(menu, inflater);
+        MenuItem menuItem = menu.findItem(R.id.searchku);
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                model.setListMovies("movie");
+                return true;
+            }
+        });
 
     }
 
@@ -132,6 +155,8 @@ public class MovieFragment extends Fragment {
                 androidx.appcompat.widget.SearchView.OnQueryTextListener queryTextListener = new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
+                        model.getSearchMovies().observe(Objects.requireNonNull(getActivity()), getSearchMovie);
+                        model.setSearchMovie(query);
                         return true;
                     }
 
@@ -144,5 +169,6 @@ public class MovieFragment extends Fragment {
                 searchView.setOnQueryTextListener(queryTextListener);
             }
         }
+
     }
 }
